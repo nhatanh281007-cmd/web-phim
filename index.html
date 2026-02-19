@@ -3,162 +3,102 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Xem Video</title>
+<title>Đế Chế Phim</title>
 
 <style>
-body{
-    background:#0f0f0f;
-    color:#fff;
-    font-family:Arial;
-    margin:0;
-    padding:20px;
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0f0f0f;
+    color: white;
 }
 
-.container{
-    max-width:1100px;
-    margin:auto;
+h1 {
+    text-align: center;
+    padding: 20px;
 }
 
-video{
-    width:100%;
-    border-radius:12px;
-    background:black;
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 10px;
 }
 
-.video-title{
-    font-size:20px;
-    font-weight:bold;
-    margin:15px 0 10px;
+.video-card {
+    margin-bottom: 20px;
+    cursor: pointer;
 }
 
-.channel{
-    color:#aaa;
-    margin-bottom:15px;
+.thumbnail {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
 }
 
-.actions button{
-    background:#222;
-    color:white;
-    border:none;
-    padding:8px 15px;
-    border-radius:20px;
-    cursor:pointer;
-    margin-right:10px;
+.play-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 50px;
+    color: white;
+    background: rgba(0,0,0,0.6);
+    padding: 10px 20px;
+    border-radius: 50%;
 }
 
-.actions button:hover{
-    background:#333;
+.title {
+    margin-top: 8px;
+    font-size: 18px;
 }
-
-.suggestions{
-    margin-top:30px;
-}
-
-.suggestion{
-    display:flex;
-    gap:10px;
-    margin-bottom:15px;
-    text-decoration:none;
-    color:white;
-}
-
-.suggestion video{
-    width:150px;
-    height:90px;
-    object-fit:cover;
-    border-radius:8px;
-}
-
-.suggestion .info{
-    font-size:14px;
-}
-
-.views{
-    color:#aaa;
-    font-size:13px;
+video {
+    width: 100%;
+    border-radius: 10px;
 }
 </style>
 </head>
-
 <body>
+
+<h1>🎬 Đế Chế Phim</h1>
 
 <div class="container">
 
-<video controls id="player"></video>
+    <div class="video-card" onclick="loadVideo(this, '1VMnKfm54A5sWdxcbb3KEuhsjuPhudaEr')">
+        <div class="thumbnail" style="background-image:url('https://via.placeholder.com/800x450')">
+            <div class="play-btn">▶</div>
+        </div>
+        <div class="title">Video 1</div>
+    </div>
 
-<div class="video-title" id="title"></div>
-<div class="channel">Chính Chủ • <span id="views"></span> lượt xem</div>
+    <div class="video-card" onclick="loadVideo(this, '11x6U_0VEz5_bVmyG6aRsJxlv8Qb6Oi6o')">
+        <div class="thumbnail" style="background-image:url('https://via.placeholder.com/800x450')">
+            <div class="play-btn">▶</div>
+        </div>
+        <div class="title">Chống Đẩy - Phần 1</div>
+    </div>
 
-<div class="actions">
-    <button onclick="like()">👍 <span id="likeCount">0</span></button>
-</div>
-
-<div class="suggestions" id="suggestions"></div>
+    <div class="video-card" onclick="loadVideo(this, '1gp-gux6odOFI0NZTdiVvK5_8dT_vY0xM')">
+        <div class="thumbnail" style="background-image:url('https://via.placeholder.com/800x450')">
+            <div class="play-btn">▶</div>
+        </div>
+        <div class="title">Chống Đẩy - Phần 2</div>
+    </div>
 
 </div>
 
 <script>
+function loadVideo(card, id) {
+    const videoUrl = "https://drive.google.com/uc?export=download&id=" + id;
 
-const videos = {
-    1:{title:"Video 1", src:"video1.mp4"},
-    2:{title:"Video 2", src:"video2.mp4"},
-    3:{title:"Chống Đẩy - Phần 1", src:"chongday1.mp4"},
-    4:{title:"Chống Đẩy - Phần 2", src:"chongday2.mp4"}
-};
-
-const params = new URLSearchParams(window.location.search);
-let id = params.get("id");
-
-if(!id) id = 1;
-
-loadVideo(id);
-
-function loadVideo(videoId){
-
-    const video = videos[videoId];
-
-    document.getElementById("player").src = video.src;
-    document.getElementById("title").innerText = video.title;
-
-    let views = localStorage.getItem("views_"+videoId) || 0;
-    views++;
-    localStorage.setItem("views_"+videoId, views);
-
-    document.getElementById("views").innerText = views;
-
-    let likes = localStorage.getItem("likes_"+videoId) || 0;
-    document.getElementById("likeCount").innerText = likes;
-
-    loadSuggestions(videoId);
+    card.innerHTML = `
+        <video controls autoplay>
+            <source src="${videoUrl}" type="video/mp4">
+        </video>
+    `;
 }
-
-function like(){
-    let current = document.getElementById("likeCount").innerText;
-    current++;
-    document.getElementById("likeCount").innerText = current;
-    localStorage.setItem("likes_"+id, current);
-}
-
-function loadSuggestions(currentId){
-
-    const box = document.getElementById("suggestions");
-    box.innerHTML = "<h3>Video đề xuất</h3>";
-
-    for(let key in videos){
-        if(key != currentId){
-            box.innerHTML += `
-            <a href="watch.html?id=${key}" class="suggestion">
-                <video src="${videos[key].src}"></video>
-                <div class="info">
-                    <div>${videos[key].title}</div>
-                    <div class="views">${localStorage.getItem("views_"+key) || 0} lượt xem</div>
-                </div>
-            </a>
-            `;
-        }
-    }
-}
-
 </script>
 
 </body>
