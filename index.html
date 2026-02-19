@@ -7,95 +7,158 @@
 
 <style>
 body{
-    background:#000;
+    background:#0f0f0f;
     color:#fff;
     font-family:Arial;
     margin:0;
     padding:20px;
 }
 
-.video-container{
-    max-width:800px;
+.container{
+    max-width:1100px;
     margin:auto;
-    position:relative;
 }
 
 video{
     width:100%;
     border-radius:12px;
+    background:black;
 }
 
-.lock-screen{
-    position:absolute;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.95);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    flex-direction:column;
-    border-radius:12px;
+.video-title{
+    font-size:20px;
+    font-weight:bold;
+    margin:15px 0 10px;
 }
 
-.lock-screen button{
-    margin-top:15px;
-    padding:10px 20px;
-    border:none;
-    border-radius:20px;
-    cursor:pointer;
+.channel{
+    color:#aaa;
+    margin-bottom:15px;
 }
 
-.title{
-    font-size:22px;
-    margin:15px 0 5px;
-}
-
-button{
-    background:#1a1a1a;
+.actions button{
+    background:#222;
     color:white;
     border:none;
-    padding:8px 14px;
-    margin:5px;
+    padding:8px 15px;
     border-radius:20px;
     cursor:pointer;
+    margin-right:10px;
 }
 
-button:hover{
+.actions button:hover{
     background:#333;
+}
+
+.suggestions{
+    margin-top:30px;
+}
+
+.suggestion{
+    display:flex;
+    gap:10px;
+    margin-bottom:15px;
+    text-decoration:none;
+    color:white;
+}
+
+.suggestion video{
+    width:150px;
+    height:90px;
+    object-fit:cover;
+    border-radius:8px;
+}
+
+.suggestion .info{
+    font-size:14px;
+}
+
+.views{
+    color:#aaa;
+    font-size:13px;
 }
 </style>
 </head>
+
 <body>
 
-<div class="video-container">
+<div class="container">
 
-<video id="videoPlayer" controls>
-<source src="https://drive.google.com/uc?export=download&id=1BwptY7NtolWK1-NU37ePUIxfvAD_z42u" type="video/mp4">
-</video>
+<video controls id="player"></video>
 
-<div id="lockScreen" class="lock-screen">
-    <h2>🔒 Nội dung VIP</h2>
-    <button onclick="buyVip()">Nâng cấp VIP</button>
+<div class="video-title" id="title"></div>
+<div class="channel">Chính Chủ • <span id="views"></span> lượt xem</div>
+
+<div class="actions">
+    <button onclick="like()">👍 <span id="likeCount">0</span></button>
 </div>
 
-</div>
+<div class="suggestions" id="suggestions"></div>
 
-<div class="title">Video Chính Chủ</div>
+</div>
 
 <script>
-let isVip = localStorage.getItem("vip");
 
-if(isVip === "true"){
-    document.getElementById("lockScreen").style.display = "none";
+const videos = {
+    1:{title:"Video 1", src:"video1.mp4"},
+    2:{title:"Video 2", src:"video2.mp4"},
+    3:{title:"Chống Đẩy - Phần 1", src:"chongday1.mp4"},
+    4:{title:"Chống Đẩy - Phần 2", src:"chongday2.mp4"}
+};
+
+const params = new URLSearchParams(window.location.search);
+let id = params.get("id");
+
+if(!id) id = 1;
+
+loadVideo(id);
+
+function loadVideo(videoId){
+
+    const video = videos[videoId];
+
+    document.getElementById("player").src = video.src;
+    document.getElementById("title").innerText = video.title;
+
+    let views = localStorage.getItem("views_"+videoId) || 0;
+    views++;
+    localStorage.setItem("views_"+videoId, views);
+
+    document.getElementById("views").innerText = views;
+
+    let likes = localStorage.getItem("likes_"+videoId) || 0;
+    document.getElementById("likeCount").innerText = likes;
+
+    loadSuggestions(videoId);
 }
 
-function buyVip(){
-    localStorage.setItem("vip", "true");
-    alert("Kích hoạt VIP thành công.");
-    document.getElementById("lockScreen").style.display = "none";
+function like(){
+    let current = document.getElementById("likeCount").innerText;
+    current++;
+    document.getElementById("likeCount").innerText = current;
+    localStorage.setItem("likes_"+id, current);
 }
+
+function loadSuggestions(currentId){
+
+    const box = document.getElementById("suggestions");
+    box.innerHTML = "<h3>Video đề xuất</h3>";
+
+    for(let key in videos){
+        if(key != currentId){
+            box.innerHTML += `
+            <a href="watch.html?id=${key}" class="suggestion">
+                <video src="${videos[key].src}"></video>
+                <div class="info">
+                    <div>${videos[key].title}</div>
+                    <div class="views">${localStorage.getItem("views_"+key) || 0} lượt xem</div>
+                </div>
+            </a>
+            `;
+        }
+    }
+}
+
 </script>
 
 </body>
