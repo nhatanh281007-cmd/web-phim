@@ -3,161 +3,99 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VideoEmpire</title>
+<title>Xem Video</title>
 
 <style>
 body{
     background:#000;
     color:#fff;
-    font-family:Arial, sans-serif;
+    font-family:Arial;
     margin:0;
-    padding:30px 15px;
-    text-align:center;
+    padding:20px;
 }
 
-h1{
-    margin-bottom:30px;
-    font-size:28px;
-}
-
-.categories{
-    margin-bottom:35px;
-}
-
-.categories button{
-    background:#1a1a1a;
-    color:#fff;
-    border:none;
-    padding:10px 18px;
-    margin:6px;
-    border-radius:20px;
-    cursor:pointer;
-    transition:0.3s;
-    font-size:14px;
-}
-
-.categories button:hover{
-    background:#333;
-}
-
-.categories button.active{
-    background:#fff;
-    color:#000;
-    font-weight:bold;
-}
-
-.movie-container{
-    display:flex;
-    justify-content:center;
-    flex-wrap:wrap;
-    gap:25px;
-}
-
-.movie{
+.video-container{
+    max-width:800px;
+    margin:auto;
     position:relative;
-    background:#111;
-    padding:15px;
-    border-radius:12px;
-    width:220px;
-    transition:0.3s;
 }
 
-.movie iframe{
+video{
     width:100%;
-    height:250px;
-    border-radius:10px;
+    border-radius:12px;
 }
 
-.movie p{
-    margin-top:12px;
-    font-weight:bold;
-    font-size:14px;
-}
-
-.lock-overlay{
+.lock-screen{
     position:absolute;
-    top:15px;
-    left:15px;
-    width:calc(100% - 30px);
-    height:250px;
-    background:rgba(0,0,0,0.9);
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.95);
     display:flex;
     justify-content:center;
     align-items:center;
     flex-direction:column;
-    border-radius:10px;
-    font-size:16px;
+    border-radius:12px;
 }
 
-.lock-overlay button{
-    margin-top:10px;
-    padding:6px 12px;
+.lock-screen button{
+    margin-top:15px;
+    padding:10px 20px;
     border:none;
-    border-radius:6px;
+    border-radius:20px;
     cursor:pointer;
+}
+
+.title{
+    font-size:22px;
+    margin:15px 0 5px;
+}
+
+button{
+    background:#1a1a1a;
+    color:white;
+    border:none;
+    padding:8px 14px;
+    margin:5px;
+    border-radius:20px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#333;
 }
 </style>
 </head>
-
 <body>
 
-<h1>🎬 Đế Chế Phim</h1>
+<div class="video-container">
 
-<div class="categories">
-    <button class="active" onclick="filterCategory('all', this)">Tất cả</button>
-    <button onclick="filterCategory('boylove', this)">Boy Love</button>
-    <button onclick="filterCategory('animals', this)">Animals</button>
-    <button onclick="filterCategory('sounding', this)">Sounding</button>
-    <button onclick="filterCategory('vip', this)">Chính Chủ</button>
+<video id="videoPlayer" controls>
+<source src="https://drive.google.com/uc?export=download&id=1BwptY7NtolWK1-NU37ePUIxfvAD_z42u" type="video/mp4">
+</video>
+
+<div id="lockScreen" class="lock-screen">
+    <h2>🔒 Nội dung VIP</h2>
+    <button onclick="buyVip()">Nâng cấp VIP</button>
 </div>
 
-<div class="movie-container">
-
-    <div class="movie" data-category="boylove">
-        <iframe src="https://drive.google.com/file/d/1BwptY7NtolWK1-NU37ePUIxfvAD_z42u/preview"></iframe>
-        <p>Video 1</p>
-    </div>
-
-    <div class="movie" data-category="vip">
-        <iframe src="https://drive.google.com/file/d/1BwptY7NtolWK1-NU37ePUIxfvAD_z42u/preview"></iframe>
-        <div class="lock-overlay">
-            🔒 VIP Only
-            <button onclick="unlock(this)">Mở khóa</button>
-        </div>
-        <p>Chính Chủ 1</p>
-    </div>
-
 </div>
+
+<div class="title">Video Chính Chủ</div>
 
 <script>
+let isVip = localStorage.getItem("vip");
 
-function filterCategory(category, button){
-
-    let buttons = document.querySelectorAll(".categories button");
-    buttons.forEach(btn => btn.classList.remove("active"));
-    button.classList.add("active");
-
-    let movies = document.querySelectorAll(".movie");
-
-    movies.forEach(movie => {
-        if(category === "all" || movie.dataset.category === category){
-            movie.style.display = "block";
-        } else {
-            movie.style.display = "none";
-        }
-    });
+if(isVip === "true"){
+    document.getElementById("lockScreen").style.display = "none";
 }
 
-function unlock(button){
-    let password = prompt("Nhập mật khẩu VIP:");
-
-    if(password === "vip123"){
-        button.parentElement.style.display = "none";
-    } else {
-        alert("Sai mật khẩu.");
-    }
+function buyVip(){
+    localStorage.setItem("vip", "true");
+    alert("Kích hoạt VIP thành công.");
+    document.getElementById("lockScreen").style.display = "none";
 }
-
 </script>
 
 </body>
