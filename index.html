@@ -1,11 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <title>Web Phim Của Tôi</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .movie-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+
+        .movie {
+            background-color: #1a1a1a;
+            padding: 15px;
+            border-radius: 10px;
+            width: 200px;
+            text-align: center;
+        }
+
+        .movie img {
+            width: 100%;
+            border-radius: 8px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Chào mừng đến với web phim</h1>
-    <p>Đây là trang phim đầu tiên của tôi.</p>
+
+    <h1>🎬 Web Phim Bí Ẩn</h1>
+
+    <div class="movie-container">
+        <div class="movie">
+            <img src="https://via.placeholder.com/200x300" alt="Poster">
+            <p>Tên phim 1</p>
+        </div>
+
+        <div class="movie">
+            <img src="https://via.placeholder.com/200x300" alt="Poster">
+            <p>Tên phim 2</p>
+        </div>
+    </div>
+
 </body>
 </html>
