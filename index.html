@@ -2,69 +2,79 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VideoEmpire</title>
 
 <style>
 body{
-    background:black;
-    color:white;
-    font-family:Arial;
-    text-align:center;
+    background:#000;
+    color:#fff;
+    font-family:Arial, sans-serif;
     margin:0;
-    padding:20px;
+    padding:30px 15px;
+    text-align:center;
 }
 
 h1{
-    margin-bottom:20px;
+    margin-bottom:30px;
+    font-size:28px;
 }
 
 .categories{
-    margin-bottom:25px;
+    margin-bottom:35px;
 }
 
 .categories button{
     background:#1a1a1a;
-    color:white;
+    color:#fff;
     border:none;
-    padding:10px 15px;
-    margin:5px;
-    border-radius:8px;
+    padding:10px 18px;
+    margin:6px;
+    border-radius:20px;
     cursor:pointer;
     transition:0.3s;
+    font-size:14px;
 }
 
 .categories button:hover{
     background:#333;
 }
 
+.categories button.active{
+    background:#fff;
+    color:#000;
+    font-weight:bold;
+}
+
 .movie-container{
     display:flex;
     justify-content:center;
     flex-wrap:wrap;
-    gap:20px;
+    gap:25px;
 }
 
 .movie{
-    background:#1a1a1a;
+    background:#111;
     padding:15px;
-    border-radius:10px;
+    border-radius:12px;
     width:200px;
     transition:0.3s;
 }
 
 .movie:hover{
-    transform:scale(1.05);
-    background:#222;
+    transform:scale(1.07);
+    background:#1e1e1e;
 }
 
 .movie img{
     width:100%;
-    border-radius:8px;
+    border-radius:10px;
 }
 
 .movie p{
-    margin-top:10px;
+    margin-top:12px;
     font-weight:bold;
+    font-size:14px;
 }
 </style>
 </head>
@@ -74,10 +84,10 @@ h1{
 <h1>🎬 Đế Chế Phim</h1>
 
 <div class="categories">
-    <button onclick="filterCategory('all')">Tất cả</button>
-    <button onclick="filterCategory('boylove')">Boy Love</button>
-    <button onclick="filterCategory('animals')">Animals</button>
-    <button onclick="filterCategory('sounding')">Sounding</button>
+    <button class="active" onclick="filterCategory('all', this)">Tất cả</button>
+    <button onclick="filterCategory('boylove', this)">Boy Love</button>
+    <button onclick="filterCategory('animals', this)">Animals</button>
+    <button onclick="filterCategory('sounding', this)">Sounding</button>
 </div>
 
 <div class="movie-container">
@@ -100,20 +110,21 @@ h1{
 </div>
 
 <script>
-function filterCategory(category){
-    let movies=document.getElementsByClassName("movie");
+function filterCategory(category, button){
 
-    for(let i=0;i<movies.length;i++){
-        if(category==="all"){
-            movies[i].style.display="block";
-        }else{
-            if(movies[i].getAttribute("data-category")===category){
-                movies[i].style.display="block";
-            }else{
-                movies[i].style.display="none";
-            }
+    let buttons = document.querySelectorAll(".categories button");
+    buttons.forEach(btn => btn.classList.remove("active"));
+    button.classList.add("active");
+
+    let movies = document.querySelectorAll(".movie");
+
+    movies.forEach(movie => {
+        if(category === "all" || movie.dataset.category === category){
+            movie.style.display = "block";
+        } else {
+            movie.style.display = "none";
         }
-    }
+    });
 }
 </script>
 
