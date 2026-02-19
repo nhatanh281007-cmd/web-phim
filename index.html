@@ -89,19 +89,19 @@ button{
     placeholder="Tìm phim..." 
     onkeyup="searchMovie()">
 
-    <div class="videos-container">
+    <div class="movie-container">
 
-        <div class="videos">
+        <div class="movie">
             <img src="https://via.placeholder.com/200x300" alt="Poster">
             <p>Boy Love</p>
         </div>
 
-        <div class="videos">
+        <div class="movie">
             <img src="https://via.placeholder.com/200x300" alt="Poster">
             <p>Animals</p>
         </div>
 
-        <div class="videos">
+        <div class="movie">
             <img src="https://via.placeholder.com/200x300" alt="Poster">
             <p>Souding</p>
         </div>
@@ -136,75 +136,6 @@ function searchMovie(){
     }
 }
 </script>
-
-</body>
-</html>            background-color: #1a1a1a;
-            padding: 15px;
-            border-radius: 10px;
-            width: 200px;
-            transition: 0.3s;
-        }
-
-        .movie:hover {
-            transform: scale(1.05);
-            background-color: #222;
-        }
-
-        .movie img {
-            width: 100%;
-            border-radius: 8px;
-        }
-
-        .movie p {
-            margin-top: 10px;
-            font-weight: bold;
-        }
-    </style>
-</head>
-
-<body>
-
-    <h1>🎬 Đế Chế Phim</h1>
-
-    <input id="searchInput" 
-    type="text" 
-    placeholder="Tìm thể loại..." 
-    onkeyup="searchMovie()">
-
-    <div class="movie-container">
-
-        <div class="movie">
-            <img src="https://via.placeholder.com/200x300" alt="Poster">
-            <p>Boy Love</p>
-        </div>
-
-        <div class="movie">
-            <img src="https://via.placeholder.com/200x300" alt="Poster">
-            <p>Animals</p>
-        </div>
-
-        <div class="movie">
-            <img src="https://via.placeholder.com/200x300" alt="Poster">
-            <p>Sounding</p>
-        </div>
-
-    </div>
-
-    <script>
-        function searchMovie() {
-            let input = document.getElementById("searchInput").value.toLowerCase();
-            let movies = document.getElementsByClassName("movie");
-
-            for (let i = 0; i < movies.length; i++) {
-                let title = movies[i].innerText.toLowerCase();
-                if (title.includes(input)) {
-                    movies[i].style.display = "block";
-                } else {
-                    movies[i].style.display = "none";
-                }
-            }
-        }
-    </script>
 
 </body>
 </html>
