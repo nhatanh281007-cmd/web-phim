@@ -2,27 +2,35 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Web Phim Của Tôi</title>
+    <title>VideoEmpire</title>
+
     <style>
         body {
             background-color: black;
             color: white;
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 0;
+            padding: 20px;
+            text-align: center;
         }
 
         h1 {
-            text-align: center;
-            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        #searchInput {
+            padding: 10px;
+            width: 250px;
+            border-radius: 8px;
+            border: none;
+            margin-bottom: 30px;
         }
 
         .movie-container {
             display: flex;
             justify-content: center;
-            gap: 20px;
             flex-wrap: wrap;
-            padding: 20px;
+            gap: 20px;
         }
 
         .movie {
@@ -30,30 +38,62 @@
             padding: 15px;
             border-radius: 10px;
             width: 200px;
-            text-align: center;
         }
 
         .movie img {
             width: 100%;
             border-radius: 8px;
         }
+
+        .movie p {
+            margin-top: 10px;
+        }
     </style>
 </head>
+
 <body>
 
-    <h1>🎬 Web Phim Bí Ẩn</h1>
+    <h1>🎬 Đế Chế Phim</h1>
+
+    <input id="searchInput" 
+    type="text" 
+    placeholder="Tìm phim..." 
+    onkeyup="searchMovie()">
 
     <div class="movie-container">
+
         <div class="movie">
             <img src="https://via.placeholder.com/200x300" alt="Poster">
-            <p>Tên phim 1</p>
+            <p>Phim Hành Động</p>
         </div>
 
         <div class="movie">
             <img src="https://via.placeholder.com/200x300" alt="Poster">
-            <p>Tên phim 2</p>
+            <p>Phim Kinh Dị</p>
         </div>
+
+        <div class="movie">
+            <img src="https://via.placeholder.com/200x300" alt="Poster">
+            <p>Phim Bí Ẩn</p>
+        </div>
+
     </div>
+
+    <script>
+        function searchMovie() {
+            let input = document.getElementById("searchInput").value.toLowerCase();
+            let movies = document.getElementsByClassName("movie");
+
+            for (let i = 0; i < movies.length; i++) {
+                let title = movies[i].innerText.toLowerCase();
+                if (title.includes(input)) {
+                    movies[i].style.display = "";
+                } else {
+                    movies[i].style.display = "none";
+                }
+            }
+        }
+    </script>
 
 </body>
 </html>
